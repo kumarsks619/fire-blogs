@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import MenuIcon from '../assets/Icons/bars-regular.svg'
+import MenuIcon from '../assets/icons/bars-regular.svg'
 
 export default {
-    name: 'navigation',
+    name: 'Navigation',
     components: {
         MenuIcon,
     },
@@ -66,10 +66,12 @@ export default {
 
 <style lang="scss" scoped>
 header {
+    position: sticky;
+    top: 0;
     background-color: #fff;
     padding: 0 25px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    z-index: 99;
+    z-index: 100;
 
     .link {
         font-weight: 500;
