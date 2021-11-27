@@ -30,13 +30,13 @@
                             Blogs
                         </router-link>
                         <router-link
-                            v-if="admin"
+                            v-show="admin"
                             class="link"
                             :to="{ name: 'CreatePost' }"
                         >
                             Create Post
                         </router-link>
-                        <router-link v-if="!user" class="link" :to="{ name: 'Login' }">
+                        <router-link v-show="!user" class="link" :to="{ name: 'Login' }">
                             Login In / Register
                         </router-link>
                     </ul>
@@ -62,6 +62,12 @@ export default {
         TwitterIcon,
         InstagramIcon,
         LinkedinIcon,
+    },
+    data() {
+        return {
+            admin: null,
+            user: null,
+        }
     },
 }
 </script>

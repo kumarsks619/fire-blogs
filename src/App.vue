@@ -9,6 +9,9 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 import Navigation from './components/Navigation.vue'
 import Footer from './components/Footer.vue'
 
@@ -25,6 +28,15 @@ export default {
     },
     created() {
         this.checkRoute()
+
+        firebase.auth().onAuthStateChanged((user) => {
+            this.$store.commit('updateUser', user)
+
+            if (user) {
+                this.$store.dispatch('getCurrentUser')
+                console.log(this.$store.state.profileFirstName)
+            }
+        })
     },
     mounted() {},
     methods: {
@@ -149,8 +161,10 @@ button,
 
 .error {
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: 500;
     color: red;
+    margin-top: 15px;
 }
 
 .blog-card-wrap {

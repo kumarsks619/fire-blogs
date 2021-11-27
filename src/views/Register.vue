@@ -29,8 +29,10 @@
                     <input type="password" placeholder="Password" v-model="password" />
                     <PasswordIcon class="icon" />
                 </div>
+
+                <div class="error" v-show="error">{{ this.errorMessage }}</div>
             </div>
-            <button>Register</button>
+            <button @click.prevent="register">Register</button>
             <div class="angle"></div>
         </form>
         <div class="background"></div>
@@ -38,6 +40,10 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
+import db from '../firebase/firebaseInit'
 import EmailIcon from '../assets/icons/envelope-regular.svg'
 import PasswordIcon from '../assets/icons/lock-alt-solid.svg'
 import UserIcon from '../assets/icons/user-alt-light.svg'
@@ -51,12 +57,47 @@ export default {
     },
     data() {
         return {
-            firstName: null,
-            lastName: null,
-            username: null,
-            email: null,
-            password: null,
+            firstName: '',
+            lastName: '',
+            username: '',
+            email: '',
+            password: '',
+            error: null,
+            errorMessage: '',
         }
+    },
+    methods: {
+        async register() {
+            if (
+                this.email !== '' &&
+                this.password !== '' &&
+                this.firstName !== '' &&
+                this.lastName !== '' &&
+                this.username !== ''
+            ) {
+                this.error = false
+                this.errorMessage = ''
+
+                const firebaseAuth = await firebase.auth()
+                const createdUser = await firebaseAuth.createUserWithEmailAndPassword(
+                    this.email,
+                    this.password
+                )
+
+                const dbRef = db.collection('users').doc(createdUser.user.uid)
+                await dbRef.set({
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    username: this.username,
+                    email: this.email,
+                })
+
+                this.$router.push({ name: 'Home' })
+            } else {
+                this.error = true
+                this.errorMessage = 'Please fill out all the fields!'
+            }
+        },
     },
 }
 </script>
