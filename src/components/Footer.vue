@@ -32,9 +32,9 @@
                         <router-link
                             v-show="admin"
                             class="link"
-                            :to="{ name: 'CreatePost' }"
+                            :to="{ name: 'CreateBlog' }"
                         >
-                            Create Post
+                            Create Blog
                         </router-link>
                         <router-link v-show="!user" class="link" :to="{ name: 'Login' }">
                             Login In / Register
@@ -67,6 +67,9 @@ export default {
         user() {
             return this.$store.state.user
         },
+        admin() {
+            return this.$store.state.profileAdmin
+        },
     },
 }
 </script>
@@ -98,6 +101,7 @@ footer {
             display: flex;
             flex-direction: column;
             align-items: center;
+
             @media (min-width: 800px) {
                 flex-direction: row;
                 align-items: initial;
@@ -180,6 +184,7 @@ footer {
                 }
             }
         }
+
         .right {
             gap: 32px;
             color: #fff;

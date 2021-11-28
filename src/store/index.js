@@ -31,15 +31,15 @@ export default new Vuex.Store({
                 blogDate: 'May 1, 2021',
             },
         ],
-        editBlog: null,
-        user: null,
-        profileAdmin: null,
-        profileEmail: null,
-        profileFirstName: null,
-        profileLastName: null,
-        profileUsername: null,
-        profileId: null,
-        profileInitials: null,
+        editBlog: false,
+        user: false,
+        profileAdmin: false,
+        profileEmail: '',
+        profileFirstName: '',
+        profileLastName: '',
+        profileUsername: '',
+        profileId: '',
+        profileInitials: '',
     },
     mutations: {
         toggleEditBlog(state, payload) {
@@ -48,6 +48,7 @@ export default new Vuex.Store({
         setProfileInfo(state, payload) {
             const doc = payload
             state.profileId = doc.id
+            state.profileAdmin = doc.data().isAdmin
             state.profileEmail = doc.data().email
             state.profileFirstName = doc.data().firstName
             state.profileLastName = doc.data().lastName
@@ -61,6 +62,18 @@ export default new Vuex.Store({
         updateUser(state, payload) {
             state.user = payload
         },
+        changeFirstName(state, payload) {
+            state.profileFirstName = payload
+        },
+        changeLastName(state, payload) {
+            state.profileLastName = payload
+        },
+        changeUsername(state, payload) {
+            state.profileUsername = payload
+        },
+        setProfileAdmin(state, payload) {
+            state.profileAdmin = payload
+        },
     },
     actions: {
         async getCurrentUser({ commit }) {
@@ -69,6 +82,15 @@ export default new Vuex.Store({
                 .doc(firebase.auth().currentUser.uid)
             const response = await dbRef.get()
             commit('setProfileInfo', response)
+            commit('setProfileInitials')
+        },
+        async updateUserProfile({ commit, state }) {
+            const dbRef = await db.collection('users').doc(state.profileId)
+            await dbRef.update({
+                firstName: state.profileFirstName,
+                lastName: state.profileLastName,
+                username: state.profileUsername,
+            })
             commit('setProfileInitials')
         },
     },

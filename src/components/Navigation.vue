@@ -8,7 +8,9 @@
                 <ul v-show="!mobile">
                     <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
                     <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-                    <router-link class="link" to="#">Create Blog</router-link>
+                    <router-link v-if="admin" class="link" :to="{ name: 'CreateBlog' }">
+                        Create Blog
+                    </router-link>
                     <router-link v-if="!user" class="link" :to="{ name: 'Login' }">
                         Login/Register
                     </router-link>
@@ -33,20 +35,25 @@
                         </div>
                         <div class="options">
                             <div class="option">
-                                <router-link to="#" class="option">
+                                <router-link
+                                    :to="{ name: 'Profile' }"
+                                    class="option-link"
+                                >
                                     <UserIcon class="icon" />
                                     <p>Profile</p>
                                 </router-link>
                             </div>
-                            <div class="option">
-                                <router-link to="#" class="option">
+                            <div v-if="admin" class="option">
+                                <router-link :to="{ name: 'Admin' }" class="option-link">
                                     <AdminIcon class="icon" />
                                     <p>Admin</p>
                                 </router-link>
                             </div>
-                            <div @click="signOut" class="option">
-                                <SignOutIcon class="icon" />
-                                <p>Sign Out</p>
+                            <div class="option">
+                                <div @click="signOut" class="option-link">
+                                    <SignOutIcon class="icon" />
+                                    <p>Sign Out</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,7 +65,9 @@
             <ul class="mobile-nav" v-show="mobileNav">
                 <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
                 <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-                <router-link class="link" to="#">Create Blog</router-link>
+                <router-link v-if="admin" class="link" :to="{ name: 'CreateBlog' }">
+                    Create Blog
+                </router-link>
                 <router-link v-if="!user" class="link" :to="{ name: 'Login' }">
                     Login/Register
                 </router-link>
@@ -86,10 +95,10 @@ export default {
     },
     data() {
         return {
-            mobile: null,
-            mobileNav: null,
+            mobile: false,
+            mobileNav: false,
             windowWidth: null,
-            profileMenu: null,
+            profileMenu: false,
         }
     },
     created() {
@@ -124,6 +133,9 @@ export default {
     computed: {
         user() {
             return this.$store.state.user
+        },
+        admin() {
+            return this.$store.state.profileAdmin
         },
     },
 }
@@ -242,14 +254,17 @@ header {
                     }
 
                     .options {
-                        padding: 15px;
+                        padding: 0;
 
                         .option {
-                            text-decoration: none;
-                            color: #fff;
-                            display: flex;
-                            align-items: center;
-                            margin-bottom: 12px;
+                            padding: 8px 12px;
+
+                            .option-link {
+                                text-decoration: none;
+                                display: flex;
+                                align-items: center;
+                                color: #fff;
+                            }
 
                             .icon {
                                 width: 18px;
@@ -261,8 +276,12 @@ header {
                                 margin-left: 12px;
                             }
 
-                            &:last-child {
-                                margin-bottom: 0px;
+                            &:hover {
+                                background-color: #fff;
+
+                                .option-link {
+                                    color: #303030;
+                                }
                             }
                         }
                     }
