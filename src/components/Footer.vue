@@ -63,11 +63,10 @@ export default {
         InstagramIcon,
         LinkedinIcon,
     },
-    data() {
-        return {
-            admin: null,
-            user: null,
-        }
+    computed: {
+        user() {
+            return this.$store.state.user
+        },
     },
 }
 </script>
