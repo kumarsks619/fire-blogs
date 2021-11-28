@@ -13,13 +13,15 @@
                     />
                 </div>
                 <span>{{ this.responseMessage }}</span>
-                <button @click="addAdmin" class="button">Submit</button>
+                <button @click="toggleAdmin" class="button">Submit</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import db from '../firebase/firebaseInit'
+
 export default {
     name: 'Admin',
     data() {
@@ -29,7 +31,36 @@ export default {
         }
     },
     methods: {
-        async addAdmin() {},
+        toggleAdmin() {
+            if (this.adminEmail.length === 0) {
+                this.responseMessage = 'Please enter a valid email address.'
+                return
+            }
+
+            db.collection('users')
+                .where('email', '==', this.adminEmail)
+                .get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.docs.length === 0) {
+                        this.responseMessage = 'No user found with this email address!'
+                        return
+                    }
+
+                    querySnapshot.forEach((doc) => {
+                        const isAlreadyAdmin = doc.data().isAdmin
+                        doc.ref.update({ isAdmin: !isAlreadyAdmin }, { merge: true })
+                        this.responseMessage = isAlreadyAdmin
+                            ? `Success! ${this.adminEmail} is now NOT an admin.`
+                            : `Success! ${this.adminEmail} is now an admin.`
+                        this.adminEmail = ''
+
+                        this.$store.commit('setProfileAdmin', !isAlreadyAdmin)
+                    })
+                })
+                .catch((err) => {
+                    this.responseMessage = err.message
+                })
+        },
     },
 }
 </script>

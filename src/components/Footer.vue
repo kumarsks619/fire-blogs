@@ -155,10 +155,16 @@ footer {
                     li {
                         display: flex;
                         align-items: center;
+
                         .svg-icon {
                             width: 24px;
                             height: auto;
                             color: #fff;
+                            transition: 0.3s color ease;
+
+                            &:hover {
+                                color: #1eb8b8;
+                            }
                         }
                     }
                 }
@@ -180,6 +186,11 @@ footer {
                         font-weight: 500;
                         color: #fff;
                         text-decoration: none;
+                        transition: 0.3s color ease;
+
+                        &:hover {
+                            color: #1eb8b8;
+                        }
                     }
                 }
             }
