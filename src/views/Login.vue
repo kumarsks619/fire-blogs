@@ -18,7 +18,7 @@
                     <PasswordIcon class="icon" />
                 </div>
 
-                <div class="error" v-show="error">{{ this.errorMessage }}</div>
+                <div class="error" v-show="error">{{ errorMessage }}</div>
             </div>
             <router-link class="forgot-password" :to="{ name: 'ForgotPassword' }">
                 Forgot your password

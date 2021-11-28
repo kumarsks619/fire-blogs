@@ -30,7 +30,7 @@
                     <PasswordIcon class="icon" />
                 </div>
 
-                <div class="error" v-show="error">{{ this.errorMessage }}</div>
+                <div class="error" v-show="error">{{ errorMessage }}</div>
             </div>
             <button @click.prevent="register">Register</button>
             <div class="angle"></div>

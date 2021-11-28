@@ -8,7 +8,11 @@
                 <p v-if="post.welcomeScreen">{{ post.blogPost }}</p>
                 <p v-else class="content-preview">{{ post.blogHTML }}</p>
 
-                <router-link v-if="post.welcomeScreen" to="#" class="link link-light">
+                <router-link
+                    v-if="post.welcomeScreen"
+                    :to="{ name: 'Login' }"
+                    class="link link-light"
+                >
                     Login/Register <ArrowIcon class="arrow arrow-light" />
                 </router-link>
                 <router-link v-else to="#" class="link">
