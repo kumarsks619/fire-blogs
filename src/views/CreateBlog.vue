@@ -5,7 +5,7 @@
 
         <div class="container">
             <div :class="{ invisible: !error }" class="err-message">
-                <p><span>Error:</span>{{ errorMessage }}</p>
+                <p><span>Error: </span>{{ errorMessage }}</p>
             </div>
 
             <div class="blog-info">
@@ -28,7 +28,7 @@
                     >
                         Preview Photo
                     </button>
-                    <span>File Chosen: {{ $store.state.blogPhotoName }}</span>
+                    <span>File Chosen: {{ $store.state.blogCoverPhotoName }}</span>
                 </div>
             </div>
 
@@ -59,6 +59,7 @@ window.Quill = Quill
 const ImageResize = require('quill-image-resize-module').default
 Quill.register('modules/imageResize', ImageResize)
 
+import db from '../firebase/firebaseInit'
 import Loading from '../components/Loading'
 import BlogCoverPreview from '../components/BlogCoverPreview'
 
@@ -124,6 +125,7 @@ export default {
                     console.log(err)
                     this.error = true
                     this.errorMessage = err.message
+                    this.clearError()
                 },
                 async () => {
                     const downloadURL = await locationRef.getDownloadURL()
@@ -135,7 +137,63 @@ export default {
         openPreview() {
             this.$store.commit('togglePhotoPreviewModal')
         },
-        uploadBlog() {},
+        uploadBlog() {
+            if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
+                if (this.file) {
+                    this.loading = true
+                    const storageRef = firebase.storage().ref()
+                    const locationRef = storageRef.child(
+                        `assets/blogCoverPhotos/${this.$store.state.blogCoverPhotoName}`
+                    )
+                    locationRef.put(this.file).on(
+                        'state_changed',
+                        (snapshot) => {
+                            console.log(snapshot)
+                        },
+                        (err) => {
+                            console.log(err)
+                            this.loading = false
+                            this.error = true
+                            this.errorMessage = err.message
+                            this.clearError()
+                        },
+                        async () => {
+                            const downloadURL = await locationRef.getDownloadURL()
+                            const timestamp = await Date.now()
+                            const docRef = await db.collection('blogs').doc()
+
+                            await docRef.set({
+                                blogID: docRef.id,
+                                blogHTML: this.blogHTML,
+                                blogCoverPhoto: downloadURL,
+                                blogCoverPhotoName: this.blogCoverPhotoName,
+                                blogTitle: this.blogTitle,
+                                profileID: this.profileID,
+                                timestamp,
+                            })
+
+                            this.loading = false
+                            this.$router.push({ name: 'ViewBlog' })
+                        }
+                    )
+                } else {
+                    this.error = true
+                    this.errorMessage = 'Please ensure you have uploaded a cover photo!'
+                    this.clearError()
+                }
+            } else {
+                this.error = true
+                this.errorMessage =
+                    'Please ensure Blog Title & Blog Post has been filled!'
+                this.clearError()
+            }
+        },
+        clearError() {
+            setTimeout(() => {
+                this.error = false
+                this.errorMessage = ''
+            }, 5000)
+        },
     },
 }
 </script>

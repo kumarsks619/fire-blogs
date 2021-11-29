@@ -31,9 +31,11 @@ export default new Vuex.Store({
                 blogDate: 'May 1, 2021',
             },
         ],
+        blogs: [],
+        blogsLoaded: false,
         blogHTML: 'Start writing your blog from here...',
         blogTitle: '',
-        blogPhotoName: '',
+        blogCoverPhotoName: '',
         blogPhotoFileURL: '',
         blogPhotoPreview: false,
         editBlog: false,
@@ -86,7 +88,7 @@ export default new Vuex.Store({
             state.blogTitle = payload
         },
         fileNameChange(state, payload) {
-            state.blogPhotoName = payload
+            state.blogCoverPhotoName = payload
         },
         createFileURL(state, payload) {
             state.blogPhotoFileURL = payload
@@ -112,6 +114,12 @@ export default new Vuex.Store({
                 username: state.profileUsername,
             })
             commit('setProfileInitials')
+        },
+        async getBlogs({ state, commit }) {
+            const dbRef = await db.collection('blogs').orderBy('timestamp', 'desc')
+            const foundBlogs = await dbRef.get()
+
+            foundBlogs.forEach((blog) => {})
         },
     },
     modules: {},
