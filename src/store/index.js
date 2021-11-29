@@ -43,7 +43,7 @@ export default new Vuex.Store({
         profileFirstName: '',
         profileLastName: '',
         profileUsername: '',
-        profileId: '',
+        profileID: '',
         profileInitials: '',
     },
     mutations: {
@@ -52,7 +52,7 @@ export default new Vuex.Store({
         },
         setProfileInfo(state, payload) {
             const doc = payload
-            state.profileId = doc.id
+            state.profileID = doc.id
             state.profileAdmin = doc.data().isAdmin
             state.profileEmail = doc.data().email
             state.profileFirstName = doc.data().firstName
@@ -79,6 +79,21 @@ export default new Vuex.Store({
         setProfileAdmin(state, payload) {
             state.profileAdmin = payload
         },
+        updateBlogHTML(state, payload) {
+            state.blogHTML = payload
+        },
+        updateBlogTitle(state, payload) {
+            state.blogTitle = payload
+        },
+        fileNameChange(state, payload) {
+            state.blogPhotoName = payload
+        },
+        createFileURL(state, payload) {
+            state.blogPhotoFileURL = payload
+        },
+        togglePhotoPreviewModal(state) {
+            state.blogPhotoPreview = !state.blogPhotoPreview
+        },
     },
     actions: {
         async getCurrentUser({ commit }) {
@@ -90,7 +105,7 @@ export default new Vuex.Store({
             commit('setProfileInitials')
         },
         async updateUserProfile({ commit, state }) {
-            const dbRef = await db.collection('users').doc(state.profileId)
+            const dbRef = await db.collection('users').doc(state.profileID)
             await dbRef.update({
                 firstName: state.profileFirstName,
                 lastName: state.profileLastName,

@@ -5,7 +5,7 @@
 
         <div class="container">
             <div :class="{ invisible: !error }" class="err-message">
-                <p><span>Error:</span>{{ errorMsg }}</p>
+                <p><span>Error:</span>{{ errorMessage }}</p>
             </div>
 
             <div class="blog-info">
@@ -52,21 +52,27 @@
 </template>
 
 <script>
-import Loading from '../components/Loading'
-
+import firebase from 'firebase/app'
+import 'firebase/storage'
 import Quill from 'quill'
 window.Quill = Quill
 const ImageResize = require('quill-image-resize-module').default
 Quill.register('modules/imageResize', ImageResize)
 
+import Loading from '../components/Loading'
+import BlogCoverPreview from '../components/BlogCoverPreview'
+
 export default {
     name: 'CreateBlog',
     components: {
         Loading,
+        BlogCoverPreview,
     },
     data() {
         return {
+            file: null,
             error: null,
+            loading: false,
             errorMessage: '',
             editorSettings: {
                 modules: {
@@ -74,6 +80,62 @@ export default {
                 },
             },
         }
+    },
+    computed: {
+        profileID() {
+            return this.$store.state.profileID
+        },
+        blogCoverPhotoName() {
+            return this.$store.state.blogCoverPhotoName
+        },
+        blogTitle: {
+            get() {
+                return this.$store.state.blogTitle
+            },
+            set(payload) {
+                this.$store.commit('updateBlogTitle', payload)
+            },
+        },
+        blogHTML: {
+            get() {
+                return this.$store.state.blogHTML
+            },
+            set(payload) {
+                this.$store.commit('updateBlogHTML', payload)
+            },
+        },
+    },
+    methods: {
+        fileChange() {
+            this.file = this.$refs.blogPhoto.files[0]
+            const fileName = this.file.name
+            this.$store.commit('fileNameChange', fileName)
+            this.$store.commit('createFileURL', URL.createObjectURL(this.file))
+        },
+        imageHandler(file, Editor, cursorLocation, resetUploader) {
+            const storageRef = firebase.storage().ref()
+            const locationRef = storageRef.child(`assets/blogContentPhotos/${file.name}`)
+            locationRef.put(file).on(
+                'state_changed',
+                (snapshot) => {
+                    console.log(snapshot)
+                },
+                (err) => {
+                    console.log(err)
+                    this.error = true
+                    this.errorMessage = err.message
+                },
+                async () => {
+                    const downloadURL = await locationRef.getDownloadURL()
+                    Editor.insertEmbed(cursorLocation, 'image', downloadURL)
+                    resetUploader()
+                }
+            )
+        },
+        openPreview() {
+            this.$store.commit('togglePhotoPreviewModal')
+        },
+        uploadBlog() {},
     },
 }
 </script>
@@ -199,7 +261,7 @@ export default {
             display: flex;
             flex-direction: column;
             height: 100%;
-            overflow: scroll;
+            overflow: hidden;
         }
 
         .ql-editor {
