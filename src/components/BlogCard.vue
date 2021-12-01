@@ -8,10 +8,17 @@
                 <DeleteIcon class="delete" />
             </div>
         </div>
-        <img :src="require(`../assets/blogCards/${post.blogCoverPhoto}.jpg`)" alt="" />
+        <img :src="blog.blogCoverPhoto" alt="" />
         <div class="info">
-            <h4>{{ post.blogTitle }}</h4>
-            <h6>Posted on: {{ post.blogDate }}</h6>
+            <h4>{{ blog.blogTitle }}</h4>
+            <h6>
+                Posted on:
+                {{
+                    new Date(blog.timestamp).toLocaleString('en-us', {
+                        dateStyle: 'long',
+                    })
+                }}
+            </h6>
             <router-link class="link" to="#"
                 >View The Blog <ArrowIcon class="arrow"
             /></router-link>
@@ -26,7 +33,7 @@ import DeleteIcon from '../assets/icons/trash-regular.svg'
 
 export default {
     name: 'BlogCard',
-    props: ['post'],
+    props: ['blog'],
     components: {
         ArrowIcon,
         EditIcon,

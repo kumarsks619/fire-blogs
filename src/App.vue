@@ -36,6 +36,8 @@ export default {
                 this.$store.dispatch('getCurrentUser')
             }
         })
+
+        this.$store.dispatch('getBlogs')
     },
     mounted() {},
     methods: {

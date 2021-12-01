@@ -9,28 +9,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        sampleBlogCards: [
-            {
-                blogTitle: 'Blog Card #1',
-                blogCoverPhoto: 'stock-1',
-                blogDate: 'May 1, 2021',
-            },
-            {
-                blogTitle: 'Blog Card #2',
-                blogCoverPhoto: 'stock-2',
-                blogDate: 'May 1, 2021',
-            },
-            {
-                blogTitle: 'Blog Card #3',
-                blogCoverPhoto: 'stock-3',
-                blogDate: 'May 1, 2021',
-            },
-            {
-                blogTitle: 'Blog Card #4',
-                blogCoverPhoto: 'stock-4',
-                blogDate: 'May 1, 2021',
-            },
-        ],
         blogs: [],
         blogsLoaded: false,
         blogHTML: 'Start writing your blog from here...',
@@ -47,6 +25,14 @@ export default new Vuex.Store({
         profileUsername: '',
         profileID: '',
         profileInitials: '',
+    },
+    getters: {
+        feedBlogs(state) {
+            return state.blogs.slice(0, 2)
+        },
+        recentBlogs(state) {
+            return state.blogs.slice(2, 6)
+        },
     },
     mutations: {
         toggleEditBlog(state, payload) {
@@ -96,6 +82,12 @@ export default new Vuex.Store({
         togglePhotoPreviewModal(state) {
             state.blogPhotoPreview = !state.blogPhotoPreview
         },
+        pushBlogs(state, payload) {
+            state.blogs.push(payload)
+        },
+        toggleBlogsLoaded(state) {
+            state.blogsLoaded = !state.blogsLoaded
+        },
     },
     actions: {
         async getCurrentUser({ commit }) {
@@ -117,9 +109,24 @@ export default new Vuex.Store({
         },
         async getBlogs({ state, commit }) {
             const dbRef = await db.collection('blogs').orderBy('timestamp', 'desc')
-            const foundBlogs = await dbRef.get()
+            const foundDocs = await dbRef.get()
 
-            foundBlogs.forEach((blog) => {})
+            foundDocs.forEach((doc) => {
+                if (!state.blogs.some((blog) => blog.blogID === doc.id)) {
+                    const blogData = doc.data()
+                    const data = {
+                        blogID: blogData.blogID,
+                        blogHTML: blogData.blogHTML,
+                        blogCoverPhoto: blogData.blogCoverPhoto,
+                        blogTitle: blogData.blogTitle,
+                        timestamp: blogData.timestamp,
+                    }
+
+                    commit('pushBlogs', data)
+                }
+            })
+
+            commit('toggleBlogsLoaded')
         },
     },
     modules: {},

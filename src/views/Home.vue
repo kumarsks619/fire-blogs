@@ -1,15 +1,15 @@
 <template>
     <div class="home">
-        <BlogPost v-if="!user" :post="welcomeScreen" />
-        <BlogPost :post="post" v-for="(post, index) in sampleBlogPost" :key="index" />
+        <Blog v-if="!user" :blog="welcomeScreen" />
+        <Blog :blog="blog" v-for="(blog, index) in feedBlogs" :key="index" />
 
         <div class="blog-card-wrap">
             <div class="container">
                 <h3>View More Recent Blogs</h3>
                 <div class="blog-cards">
                     <BlogCard
-                        v-for="(post, index) in sampleBlogCards"
-                        :post="post"
+                        v-for="(blog, index) in recentBlogs"
+                        :blog="blog"
                         :key="index"
                     />
                 </div>
@@ -28,14 +28,14 @@
 </template>
 
 <script>
-import BlogPost from '../components/BlogPost.vue'
+import Blog from '../components/Blog.vue'
 import BlogCard from '../components/BlogCard.vue'
 import ArrowIcon from '../assets/icons/arrow-right-light.svg'
 
 export default {
     name: 'Home',
     components: {
-        BlogPost,
+        Blog,
         BlogCard,
         ArrowIcon,
     },
@@ -43,28 +43,19 @@ export default {
         return {
             welcomeScreen: {
                 title: 'Welcome!',
-                blogPost:
+                content:
                     'Weekly blog articles with all things programming including HTML, CSS, JavaScript and more. Register today to never miss a post!',
                 welcomeScreen: true,
                 photo: 'coding',
             },
-            sampleBlogPost: [
-                {
-                    title: 'This is a Filter Title!',
-                    blogHTML: 'This is a filter blog post title!',
-                    blogCoverPhoto: 'beautiful-stories',
-                },
-                {
-                    title: 'This is a Filter Title!',
-                    blogHTML: 'This is a filter blog post title!',
-                    blogCoverPhoto: 'designed-for-everyone',
-                },
-            ],
         }
     },
     computed: {
-        sampleBlogCards() {
-            return this.$store.state.sampleBlogCards
+        recentBlogs() {
+            return this.$store.getters.recentBlogs
+        },
+        feedBlogs() {
+            return this.$store.getters.feedBlogs
         },
         user() {
             return this.$store.state.user

@@ -2,14 +2,14 @@
     <div class="blog-wrapper" :class="{ 'no-user': !user }">
         <div class="blog-content">
             <div>
-                <h2 v-if="post.welcomeScreen">{{ post.title }}</h2>
-                <h2 v-else>{{ post.title }}</h2>
+                <h2 v-if="blog.welcomeScreen">{{ blog.title }}</h2>
+                <h2 v-else>{{ blog.blogTitle }}</h2>
 
-                <p v-if="post.welcomeScreen">{{ post.blogPost }}</p>
-                <p v-else class="content-preview">{{ post.blogHTML }}</p>
+                <p v-if="blog.welcomeScreen">{{ blog.content }}</p>
+                <p v-else class="content-preview" v-html="blog.blogHTML"></p>
 
                 <router-link
-                    v-if="post.welcomeScreen"
+                    v-if="blog.welcomeScreen"
                     :to="{ name: 'Login' }"
                     class="link link-light"
                 >
@@ -23,15 +23,11 @@
 
         <div class="blog-photo">
             <img
-                v-if="post.welcomeScreen"
-                :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
-                alt=""
+                v-if="blog.welcomeScreen"
+                :src="require(`../assets/blogPhotos/${blog.photo}.jpg`)"
+                alt="Welcome Cover"
             />
-            <img
-                v-else
-                :src="require(`../assets/blogPhotos/${post.blogCoverPhoto}.jpg`)"
-                alt=""
-            />
+            <img v-else :src="blog.blogCoverPhoto" :alt="blog.blogTitle" />
         </div>
     </div>
 </template>
@@ -40,8 +36,8 @@
 import ArrowIcon from '../assets/icons/arrow-right-light.svg'
 
 export default {
-    name: 'BlogPost',
-    props: ['post'],
+    name: 'Blog',
+    props: ['blog'],
     components: {
         ArrowIcon,
     },
