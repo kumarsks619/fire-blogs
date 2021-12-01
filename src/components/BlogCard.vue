@@ -19,9 +19,12 @@
                     })
                 }}
             </h6>
-            <router-link class="link" to="#"
-                >View The Blog <ArrowIcon class="arrow"
-            /></router-link>
+            <router-link
+                class="link"
+                :to="{ name: 'ViewBlog', params: { blogID: blog.blogID } }"
+            >
+                View The Blog <ArrowIcon class="arrow" />
+            </router-link>
         </div>
     </div>
 </template>

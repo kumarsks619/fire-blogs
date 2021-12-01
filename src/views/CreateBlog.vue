@@ -172,8 +172,12 @@ export default {
                                 timestamp,
                             })
 
+                            await this.$store.dispatch('getBlogs')
                             this.loading = false
-                            this.$router.push({ name: 'ViewBlog' })
+                            this.$router.push({
+                                name: 'ViewBlog',
+                                params: { blogID: docRef.id },
+                            })
                         }
                     )
                 } else {

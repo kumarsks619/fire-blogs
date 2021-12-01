@@ -15,7 +15,11 @@
                 >
                     Login/Register <ArrowIcon class="arrow arrow-light" />
                 </router-link>
-                <router-link v-else to="#" class="link">
+                <router-link
+                    v-else
+                    :to="{ name: 'ViewBlog', params: { blogID: blog.blogID } }"
+                    class="link"
+                >
                     View The Blog <ArrowIcon class="arrow" />
                 </router-link>
             </div>
