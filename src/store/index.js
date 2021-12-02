@@ -88,6 +88,15 @@ export default new Vuex.Store({
         toggleBlogsLoaded(state) {
             state.blogsLoaded = !state.blogsLoaded
         },
+        filterBlogs(state, payload) {
+            state.blogs = state.blogs.filter((blog) => blog.blogID !== payload)
+        },
+        setBlogState(state, payload) {
+            state.blogTitle = payload.blogTitle
+            state.blogHTML = payload.blogHTML
+            state.blogPhotoFileURL = payload.blogPhotoFileURL
+            state.blogCoverPhotoName = payload.blogCoverPhotoName
+        },
     },
     actions: {
         async getCurrentUser({ commit }) {
@@ -118,6 +127,7 @@ export default new Vuex.Store({
                         blogID: blogData.blogID,
                         blogHTML: blogData.blogHTML,
                         blogCoverPhoto: blogData.blogCoverPhoto,
+                        blogCoverPhotoName: blogData.blogCoverPhotoName,
                         blogTitle: blogData.blogTitle,
                         timestamp: blogData.timestamp,
                     }
@@ -127,6 +137,16 @@ export default new Vuex.Store({
             })
 
             commit('toggleBlogsLoaded')
+        },
+        async deleteBlog({ commit }, payload) {
+            const blogToDelete = await db.collection('blogs').doc(payload)
+            await blogToDelete.delete()
+
+            commit('filterBlogs', payload)
+        },
+        async updateBlog({ commit, dispatch }, payload) {
+            commit('filterBlogs', payload)
+            await dispatch('getBlogs')
         },
     },
     modules: {},
