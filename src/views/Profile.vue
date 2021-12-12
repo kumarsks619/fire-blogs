@@ -165,7 +165,7 @@ export default {
                 input {
                     width: 100%;
                     border: none;
-                    background-color: #f2f7f6;
+                    background-color: #fff;
                     padding: 8px;
                     height: 50px;
 
@@ -175,6 +175,10 @@ export default {
                     &:focus {
                         outline: none;
                     }
+                }
+
+                input:disabled {
+                    background-color: #f2f7f6;
                 }
             }
 

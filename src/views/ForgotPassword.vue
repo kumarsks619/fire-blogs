@@ -5,7 +5,6 @@
             :modalMessage="modalMessage"
             v-on:close-modal="closeModal"
         />
-        <Loading v-show="loading" />
 
         <div class="form-wrap">
             <form class="reset">
@@ -37,21 +36,18 @@ import 'firebase/auth'
 
 import EmailIcon from '../assets/icons/envelope-regular.svg'
 import Modal from '../components/Modal'
-import Loading from '../components/Loading'
 
 export default {
     name: 'ForgotPassword',
     components: {
         EmailIcon,
         Modal,
-        Loading,
     },
     data() {
         return {
             email: '',
             modalActive: null,
             modalMessage: '',
-            loading: null,
         }
     },
     methods: {
@@ -60,19 +56,19 @@ export default {
             this.email = ''
         },
         resetPassword() {
-            this.loading = true
+            this.$store.commit('toggleLoading')
             firebase
                 .auth()
                 .sendPasswordResetEmail(this.email)
                 .then(() => {
                     this.modalMessage =
                         'If your account exists, you will receive an email'
-                    this.loading = false
+                    this.$store.commit('toggleLoading')
                     this.modalActive = true
                 })
                 .catch((err) => {
                     this.modalMessage = err.message
-                    this.loading = false
+                    this.$store.commit('toggleLoading')
                     this.modalActive = true
                 })
         },

@@ -36,12 +36,14 @@ export default {
                 this.responseMessage = 'Please enter a valid email address.'
                 return
             }
+            this.$store.commit('toggleLoading')
 
             db.collection('users')
                 .where('email', '==', this.adminEmail)
                 .get()
                 .then((querySnapshot) => {
                     if (querySnapshot.docs.length === 0) {
+                        this.$store.commit('toggleLoading')
                         this.responseMessage = 'No user found with this email address!'
                         return
                     }
@@ -55,10 +57,12 @@ export default {
                         this.adminEmail = ''
 
                         this.$store.commit('setProfileAdmin', !isAlreadyAdmin)
+                        this.$store.commit('toggleLoading')
                     })
                 })
                 .catch((err) => {
                     this.responseMessage = err.message
+                    this.$store.commit('toggleLoading')
                 })
         },
     },
@@ -105,7 +109,7 @@ export default {
                 input {
                     width: 100%;
                     border: none;
-                    background-color: #f2f7f6;
+                    background-color: #fff;
                     padding: 8px;
                     height: 50px;
 

@@ -53,16 +53,20 @@ export default {
     },
     methods: {
         signIn() {
+            this.$store.commit('toggleLoading')
+
             firebase
                 .auth()
                 .signInWithEmailAndPassword(this.email, this.password)
                 .then(() => {
+                    this.$store.commit('toggleLoading')
                     this.error = false
                     this.errorMessage = ''
 
                     this.$router.push({ name: 'Home' })
                 })
                 .catch((err) => {
+                    this.$store.commit('toggleLoading')
                     this.error = true
                     this.errorMessage = err.message
                 })

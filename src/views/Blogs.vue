@@ -1,7 +1,7 @@
 <template>
     <div class="blog-card-wrap">
         <div class="blog-cards container">
-            <div class="toggle-edit">
+            <div v-if="admin" class="toggle-edit">
                 <span>Toggle Editing Blogs</span>
                 <input type="checkbox" v-model="editBlog" />
             </div>
@@ -29,6 +29,9 @@ export default {
             set(payload) {
                 this.$store.commit('toggleEditBlog', payload)
             },
+        },
+        admin() {
+            return this.$store.state.profileAdmin
         },
     },
     beforeDestroy() {

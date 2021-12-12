@@ -79,6 +79,8 @@ export default {
                 this.errorMessage = ''
 
                 try {
+                    this.$store.commit('toggleLoading')
+
                     const firebaseAuth = await firebase.auth()
                     const createdUser = await firebaseAuth.createUserWithEmailAndPassword(
                         this.email,
@@ -94,8 +96,10 @@ export default {
                         isAdmin: false,
                     })
 
+                    this.$store.commit('toggleLoading')
                     this.$router.push({ name: 'Home' })
                 } catch (err) {
+                    this.$store.commit('toggleLoading')
                     this.error = true
                     this.errorMessage = err.message
                 }

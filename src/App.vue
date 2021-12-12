@@ -1,6 +1,8 @@
 <template>
     <div class="app-wrapper">
-        <div class="app" v-if="$store.state.blogsLoaded">
+        <Loading v-show="$store.getters.loading" />
+
+        <div class="app">
             <Navigation v-show="navigation" />
             <router-view />
             <Footer v-show="navigation" />
@@ -14,12 +16,14 @@ import 'firebase/auth'
 
 import Navigation from './components/Navigation.vue'
 import Footer from './components/Footer.vue'
+import Loading from './components/Loading.vue'
 
 export default {
     name: 'App',
     components: {
         Navigation,
         Footer,
+        Loading,
     },
     data() {
         return {

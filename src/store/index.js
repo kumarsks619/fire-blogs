@@ -10,7 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         blogs: [],
-        blogsLoaded: false,
+        loading: false,
         blogHTML: 'Start writing your blog from here...',
         blogTitle: '',
         blogCoverPhotoName: '',
@@ -32,6 +32,9 @@ export default new Vuex.Store({
         },
         recentBlogs(state) {
             return state.blogs.slice(2, 6)
+        },
+        loading(state) {
+            return state.loading
         },
     },
     mutations: {
@@ -85,8 +88,8 @@ export default new Vuex.Store({
         pushBlogs(state, payload) {
             state.blogs.push(payload)
         },
-        toggleBlogsLoaded(state) {
-            state.blogsLoaded = !state.blogsLoaded
+        toggleLoading(state) {
+            state.loading = !state.loading
         },
         filterBlogs(state, payload) {
             state.blogs = state.blogs.filter((blog) => blog.blogID !== payload)
@@ -108,6 +111,8 @@ export default new Vuex.Store({
             commit('setProfileInitials')
         },
         async updateUserProfile({ commit, state }) {
+            commit('toggleLoading')
+
             const dbRef = await db.collection('users').doc(state.profileID)
             await dbRef.update({
                 firstName: state.profileFirstName,
@@ -115,8 +120,10 @@ export default new Vuex.Store({
                 username: state.profileUsername,
             })
             commit('setProfileInitials')
+            commit('toggleLoading')
         },
         async getBlogs({ state, commit }) {
+            commit('toggleLoading')
             const dbRef = await db.collection('blogs').orderBy('timestamp', 'desc')
             const foundDocs = await dbRef.get()
 
@@ -131,18 +138,18 @@ export default new Vuex.Store({
                         blogTitle: blogData.blogTitle,
                         timestamp: blogData.timestamp,
                     }
-
                     commit('pushBlogs', data)
                 }
             })
-
-            commit('toggleBlogsLoaded')
+            commit('toggleLoading')
         },
         async deleteBlog({ commit }, payload) {
+            commit('toggleLoading')
             const blogToDelete = await db.collection('blogs').doc(payload)
             await blogToDelete.delete()
 
             commit('filterBlogs', payload)
+            commit('toggleLoading')
         },
         async updateBlog({ commit, dispatch }, payload) {
             commit('filterBlogs', payload)

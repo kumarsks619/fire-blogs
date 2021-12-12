@@ -1,7 +1,6 @@
 <template>
     <div class="create-blog">
         <BlogCoverPreview v-show="$store.state.blogPhotoPreview" />
-        <Loading v-show="loading" />
 
         <div class="container">
             <div :class="{ invisible: !error }" class="err-message">
@@ -60,20 +59,17 @@ const ImageResize = require('quill-image-resize-module').default
 Quill.register('modules/imageResize', ImageResize)
 
 import db from '../firebase/firebaseInit'
-import Loading from '../components/Loading'
 import BlogCoverPreview from '../components/BlogCoverPreview'
 
 export default {
     name: 'EditBlog',
     components: {
-        Loading,
         BlogCoverPreview,
     },
     data() {
         return {
             file: null,
             error: null,
-            loading: false,
             routeID: null,
             errorMessage: '',
             editorSettings: {
@@ -150,7 +146,7 @@ export default {
 
             if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
                 if (this.file) {
-                    this.loading = true
+                    this.$store.commit('toggleLoading')
                     const storageRef = firebase.storage().ref()
                     const locationRef = storageRef.child(
                         `assets/blogCoverPhotos/${this.$store.state.blogCoverPhotoName}`
@@ -162,7 +158,7 @@ export default {
                         },
                         (err) => {
                             console.log(err)
-                            this.loading = false
+                            this.$store.commit('toggleLoading')
                             this.error = true
                             this.errorMessage = err.message
                             this.clearError()
@@ -178,7 +174,7 @@ export default {
                             })
 
                             await this.$store.dispatch('updateBlog', this.routeID)
-                            this.loading = false
+                            this.$store.commit('toggleLoading')
                             this.$router.push({
                                 name: 'ViewBlog',
                                 params: { blogID: docRef.id },
@@ -187,14 +183,14 @@ export default {
                     )
                 }
 
-                this.loading = true
+                this.$store.commit('toggleLoading')
                 await docRef.update({
                     blogHTML: this.blogHTML,
                     blogTitle: this.blogTitle,
                 })
 
                 await this.$store.dispatch('updateBlog', this.routeID)
-                this.loading = false
+                this.$store.commit('toggleLoading')
                 this.$router.push({ name: 'ViewBlog', params: { blogID: docRef.id } })
             } else {
                 this.error = true
