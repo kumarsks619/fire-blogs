@@ -1,6 +1,9 @@
 <template>
     <div class="post-view">
         <div class="container quillWrapper">
+            <router-link class="router-button" :to="{ name: 'CreateBlog' }">
+                Go Back
+            </router-link>
             <h2>{{ blogTitle }}</h2>
             <img :src="blogCoverPhoto" alt="" />
             <div class="post-content ql-editor" v-html="blogHTML"></div>
@@ -29,9 +32,28 @@ export default {
 .post-view {
     min-height: 100%;
 
+    .router-button {
+        transition: 0.5s ease-in-out all;
+        align-self: center;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 20px;
+        padding: 12px 24px;
+        color: #fff;
+        background-color: #303030;
+        text-decoration: none;
+        display: block;
+        margin-left: auto;
+        width: fit-content;
+
+        &:hover {
+            background-color: rgba(48, 48, 48, 0.7);
+        }
+    }
+
     .container {
         max-width: 1000px;
-        padding: 60px 25px;
+        padding: 20px 25px 60px;
     }
 
     .ql-editor {
@@ -39,6 +61,7 @@ export default {
     }
 
     h2 {
+        margin-top: 2rem;
         margin-bottom: 16px;
         font-weight: 300;
         font-size: 32px;
