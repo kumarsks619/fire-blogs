@@ -11,6 +11,7 @@ export default new Vuex.Store({
     state: {
         blogs: [],
         loading: false,
+        linearLoading: 0,
         blogHTML: 'Start writing your blog from here...',
         blogTitle: '',
         blogCoverPhotoName: '',
@@ -35,6 +36,9 @@ export default new Vuex.Store({
         },
         loading(state) {
             return state.loading
+        },
+        linearLoading(state) {
+            return state.linearLoading
         },
     },
     mutations: {
@@ -99,6 +103,9 @@ export default new Vuex.Store({
             state.blogHTML = payload.blogHTML
             state.blogPhotoFileURL = payload.blogPhotoFileURL
             state.blogCoverPhotoName = payload.blogCoverPhotoName
+        },
+        setLinearLoaderProgress(state, payload) {
+            state.linearLoading = payload
         },
     },
     actions: {

@@ -115,7 +115,10 @@ export default {
             locationRef.put(file).on(
                 'state_changed',
                 (snapshot) => {
-                    console.log(snapshot)
+                    const progress = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    )
+                    this.$store.commit('setLinearLoaderProgress', progress)
                 },
                 (err) => {
                     console.log(err)
@@ -124,6 +127,7 @@ export default {
                     this.clearError()
                 },
                 async () => {
+                    this.$store.commit('setLinearLoaderProgress', 0)
                     const downloadURL = await locationRef.getDownloadURL()
                     Editor.insertEmbed(cursorLocation, 'image', downloadURL)
                     resetUploader()
@@ -144,7 +148,10 @@ export default {
                     locationRef.put(this.file).on(
                         'state_changed',
                         (snapshot) => {
-                            console.log(snapshot)
+                            const progress = Math.round(
+                                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                            )
+                            this.$store.commit('setLinearLoaderProgress', progress)
                         },
                         (err) => {
                             console.log(err)
@@ -154,6 +161,7 @@ export default {
                             this.clearError()
                         },
                         async () => {
+                            this.$store.commit('setLinearLoaderProgress', 0)
                             const downloadURL = await locationRef.getDownloadURL()
                             const timestamp = await Date.now()
                             const docRef = await db.collection('blogs').doc()
@@ -170,6 +178,7 @@ export default {
 
                             await this.$store.dispatch('getBlogs')
                             this.$store.commit('toggleLoading')
+                            this.clearCreateBlogForm()
                             this.$router.push({
                                 name: 'ViewBlog',
                                 params: { blogID: docRef.id },
@@ -193,6 +202,12 @@ export default {
                 this.error = false
                 this.errorMessage = ''
             }, 5000)
+        },
+        clearCreateBlogForm() {
+            this.$store.commit('updateBlogTitle', '')
+            this.$store.commit('updateBlogHTML', 'Start writing your blog from here...')
+            this.$store.commit('fileNameChange', '')
+            this.$store.commit('createFileURL', '')
         },
     },
 }

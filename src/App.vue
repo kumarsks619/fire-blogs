@@ -1,6 +1,10 @@
 <template>
     <div class="app-wrapper">
         <Loading v-show="$store.getters.loading" />
+        <LinearLoader
+            v-show="$store.getters.linearLoading"
+            :progress="$store.getters.linearLoading"
+        />
 
         <div class="app">
             <Navigation v-show="navigation" />
@@ -17,6 +21,7 @@ import 'firebase/auth'
 import Navigation from './components/Navigation.vue'
 import Footer from './components/Footer.vue'
 import Loading from './components/Loading.vue'
+import LinearLoader from './components/LinearLoader.vue'
 
 export default {
     name: 'App',
@@ -24,6 +29,7 @@ export default {
         Navigation,
         Footer,
         Loading,
+        LinearLoader,
     },
     data() {
         return {

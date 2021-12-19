@@ -6,7 +6,6 @@
                 <h2 v-else>{{ blog.blogTitle }}</h2>
 
                 <p v-if="blog.welcomeScreen">{{ blog.content }}</p>
-                <p v-else class="content-preview" v-html="blog.blogHTML"></p>
 
                 <router-link
                     v-if="blog.welcomeScreen"
@@ -104,15 +103,6 @@ export default {
                 font-size: 15px;
                 font-weight: 300;
                 line-height: 1.7;
-            }
-
-            .content-preview {
-                font-size: 13px;
-                max-height: 24px;
-                width: 250px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
 
             .link {
