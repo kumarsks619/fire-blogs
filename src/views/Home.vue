@@ -19,7 +19,7 @@
         <div v-if="!user" class="updates">
             <div class="container">
                 <h2>never miss a blog. Register for your free account today!</h2>
-                <router-link class="router-button" to="#">
+                <router-link class="router-button" :to="{ name: 'Register' }">
                     Register for FireBlogs <ArrowIcon class="arrow arrow-light" />
                 </router-link>
             </div>

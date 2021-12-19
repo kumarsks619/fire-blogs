@@ -66,7 +66,8 @@ export default {
     flex-direction: column;
     border-radius: 8px;
     background-color: #fff;
-    min-height: 420px;
+    height: 420px;
+    min-height: 320px;
     transition: 0.5s ease all;
 
     &:hover {

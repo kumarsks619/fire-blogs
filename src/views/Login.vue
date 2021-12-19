@@ -7,6 +7,9 @@
                     Register
                 </router-link>
             </p>
+            <router-link class="goto-home" :to="{ name: 'Home' }">
+                Go to home
+            </router-link>
             <h2>Login to FireBlogs</h2>
             <div class="inputs">
                 <div class="input">
@@ -23,6 +26,7 @@
             <router-link class="forgot-password" :to="{ name: 'ForgotPassword' }">
                 Forgot your password
             </router-link>
+
             <button @click.prevent="signIn">Sign In</button>
             <div class="angle"></div>
         </form>
@@ -90,9 +94,23 @@ export default {
     }
 
     .login-register {
-        margin-bottom: 32px;
+        margin-bottom: 16px;
+
         .router-link {
             color: #000;
+        }
+    }
+
+    .goto-home {
+        text-decoration: none;
+        color: #000;
+        cursor: pointer;
+        margin-bottom: 16px;
+        border-bottom: 1px solid transparent;
+        transition: 0.5s ease all;
+
+        &:hover {
+            border-color: #303030;
         }
     }
 

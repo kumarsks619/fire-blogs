@@ -8,16 +8,21 @@
                     </router-link>
                     <ul>
                         <li>
-                            <a href="#"><YouTubeIcon class="svg-icon"/></a>
+                            <a
+                                href="https://www.linkedin.com/in/kumarsks619/"
+                                target="_blank"
+                                ><LinkedinIcon class="svg-icon"
+                            /></a>
                         </li>
                         <li>
-                            <a href="#"><TwitterIcon class="svg-icon"/></a>
+                            <a href="https://www.instagram.com/blck_tie/" target="_blank"
+                                ><InstagramIcon class="svg-icon"
+                            /></a>
                         </li>
                         <li>
-                            <a href="#"><InstagramIcon class="svg-icon"/></a>
-                        </li>
-                        <li>
-                            <a href="#"><LinkedinIcon class="svg-icon"/></a>
+                            <a href="https://twitter.com/kumarsks619" target="_blank"
+                                ><TwitterIcon class="svg-icon"
+                            /></a>
                         </li>
                     </ul>
                 </div>
@@ -50,7 +55,6 @@
 </template>
 
 <script>
-import YouTubeIcon from '../assets/icons/youtube-brands.svg'
 import TwitterIcon from '../assets/icons/twitter-brands.svg'
 import InstagramIcon from '../assets/icons/instagram-brands.svg'
 import LinkedinIcon from '../assets/icons/linkedin-brands.svg'
@@ -58,7 +62,6 @@ import LinkedinIcon from '../assets/icons/linkedin-brands.svg'
 export default {
     name: 'Footer',
     components: {
-        YouTubeIcon,
         TwitterIcon,
         InstagramIcon,
         LinkedinIcon,

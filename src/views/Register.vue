@@ -7,6 +7,9 @@
                     Login
                 </router-link>
             </p>
+            <router-link class="goto-home" :to="{ name: 'Home' }">
+                Go to home
+            </router-link>
             <h2>Create Your FireBlogs Account</h2>
             <div class="inputs">
                 <div class="input">
