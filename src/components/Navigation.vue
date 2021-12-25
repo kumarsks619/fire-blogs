@@ -17,9 +17,19 @@
                 </ul>
 
                 <!-- Profile Menu -->
-                <div v-if="user" @click="toggleProfileMenu" class="profile" ref="profile">
+                <div
+                    v-if="user"
+                    @click="toggleProfileMenu"
+                    class="profile"
+                    :class="{ 'profile-menu-shift': mobile }"
+                    ref="profile"
+                >
                     <span>{{ $store.state.profileInitials }}</span>
-                    <div v-show="profileMenu" class="profile-menu">
+                    <div
+                        v-show="profileMenu"
+                        class="profile-menu"
+                        v-click-outside="closeProfileMenu"
+                    >
                         <div class="info">
                             <p class="initials">
                                 {{ $store.state.profileInitials }}
@@ -60,9 +70,14 @@
                 </div>
             </div>
         </nav>
-        <MenuIcon @click="toggleMobileNav" class="menu-icon" v-show="mobile" />
+        <MenuIcon
+            @click="toggleMobileNav"
+            class="menu-icon"
+            v-show="mobile"
+            ref="hamburgerIcon"
+        />
         <transition name="mobile-nav">
-            <ul class="mobile-nav" v-show="mobileNav">
+            <ul class="mobile-nav" v-show="mobileNav" v-click-outside="closeMobileNav">
                 <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
                 <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
                 <router-link v-if="admin" class="link" :to="{ name: 'CreateBlog' }">
@@ -120,9 +135,19 @@ export default {
         toggleMobileNav() {
             this.mobileNav = !this.mobileNav
         },
+        closeMobileNav(e) {
+            if (e.target !== this.$refs.hamburgerIcon) {
+                this.mobileNav = false
+            }
+        },
         toggleProfileMenu(e) {
             if (e.target === this.$refs.profile) {
                 this.profileMenu = !this.profileMenu
+            }
+        },
+        closeProfileMenu(e) {
+            if (e.target !== this.$refs.profile) {
+                this.profileMenu = false
             }
         },
         signOut() {
@@ -286,6 +311,10 @@ header {
                         }
                     }
                 }
+            }
+
+            .profile-menu-shift {
+                margin-right: 40px;
             }
 
             .mobile-user-menu {

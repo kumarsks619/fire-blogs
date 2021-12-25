@@ -48,7 +48,12 @@
                 </div>
             </div>
             <div class="right">
-                <p>Copyright 2021 All Rights Reserved</p>
+                <p>
+                    Copyright &copy; 2021 | Made with 💖 by
+                    <a href="http://shubhamm.in/" target="_blank" class="link my-name"
+                        >VeNoM</a
+                    >
+                </p>
             </div>
         </div>
     </footer>
@@ -183,19 +188,19 @@ footer {
                     @media (min-width: 800px) {
                         flex-direction: column;
                     }
-
-                    .link {
-                        font-size: 16px;
-                        font-weight: 500;
-                        color: #fff;
-                        text-decoration: none;
-                        transition: 0.3s color ease;
-
-                        &:hover {
-                            color: #1eb8b8;
-                        }
-                    }
                 }
+            }
+        }
+
+        .link {
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s color ease;
+
+            &:hover {
+                color: #1eb8b8;
             }
         }
 
@@ -204,6 +209,16 @@ footer {
             color: #fff;
             align-items: center;
             flex-direction: column;
+
+            .my-name {
+                border-bottom: 2px solid #fff;
+                padding: 0 6px 1.4px 2px;
+            }
+
+            .my-name:hover {
+                color: red;
+                border-color: red;
+            }
 
             @media (min-width: 800px) {
                 align-items: flex-end;
