@@ -78,9 +78,6 @@ export default {
             },
         }
     },
-    mounted() {
-        this.clearCreateBlogForm()
-    },
     computed: {
         profileID() {
             return this.$store.state.profileID
@@ -177,6 +174,8 @@ export default {
                                 blogTitle: this.blogTitle,
                                 profileID: this.profileID,
                                 timestamp,
+                                createdByName: this.$store.getters.userFullName,
+                                createdByEmail: this.$store.state.profileEmail,
                             })
 
                             await this.$store.dispatch('getBlogs')

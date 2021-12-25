@@ -6,6 +6,7 @@
                 <h2 v-else>{{ blog.blogTitle }}</h2>
 
                 <p v-if="blog.welcomeScreen">{{ blog.content }}</p>
+                <p v-else>Posted by: {{ blog.createdByName }}</p>
 
                 <router-link
                     v-if="blog.welcomeScreen"

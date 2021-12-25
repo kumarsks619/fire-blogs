@@ -41,6 +41,9 @@ export default new Vuex.Store({
         linearLoading(state) {
             return state.linearLoading
         },
+        userFullName(state) {
+            return `${state.profileFirstName} ${state.profileLastName}`
+        },
     },
     mutations: {
         toggleEditBlog(state, payload) {
@@ -148,6 +151,8 @@ export default new Vuex.Store({
                         blogCoverPhotoName: blogData.blogCoverPhotoName,
                         blogTitle: blogData.blogTitle,
                         timestamp: blogData.timestamp,
+                        createdByEmail: blogData.createdByEmail,
+                        createdByName: blogData.createdByName,
                     }
                     commit('pushBlogs', data)
                 }

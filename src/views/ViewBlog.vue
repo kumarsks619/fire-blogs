@@ -3,6 +3,10 @@
         <div class="container quillWrapper">
             <h2>{{ currentBlog[0].blogTitle }}</h2>
             <h4>
+                Posted by: {{ currentBlog[0].createdByName }}
+                <span>({{ currentBlog[0].createdByEmail }})</span>
+            </h4>
+            <h4>
                 Posted on:
                 {{
                     new Date(currentBlog[0].timestamp).toLocaleString('en-us', {
@@ -37,6 +41,13 @@ export default {
     h4 {
         font-weight: 400;
         font-size: 14px;
+        margin-bottom: 8px;
+
+        span {
+        }
+    }
+
+    h4:nth-child(3) {
         margin-bottom: 24px;
     }
 }

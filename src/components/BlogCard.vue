@@ -11,6 +11,7 @@
         <img :src="blog.blogCoverPhoto" alt="" />
         <div class="info">
             <h4>{{ blog.blogTitle }}</h4>
+            <h6>Posted by: {{ blog.createdByName }}</h6>
             <h6>
                 Posted on:
                 {{
@@ -142,7 +143,7 @@ export default {
         h6 {
             font-weight: 400;
             font-size: 12px;
-            padding-bottom: 16px;
+            padding-bottom: 8px;
         }
 
         .link {
