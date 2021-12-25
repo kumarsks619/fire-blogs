@@ -82,7 +82,7 @@ export default {
     async mounted() {
         this.routeID = this.$route.params.blogID
         this.currentBlog = await this.$store.state.blogs.filter(
-            (blog) => blog.id == this.routeID
+            (blog) => blog.blogID === String(this.routeID)
         )
         this.$store.commit('setBlogState', this.currentBlog[0])
     },

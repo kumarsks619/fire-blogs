@@ -26,6 +26,13 @@ npm run build
 npm run lint
 ```
 
+### Steps to Deploy
+
+```
+npm run build
+firebase deploy
+```
+
 ### Credits
 
 [Website](http://shubhamm.in/), [Linkedin](https://www.linkedin.com/in/kumarsks619/), [Instagram](https://www.instagram.com/blck_tie/).
