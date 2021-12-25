@@ -8,7 +8,7 @@
                 <ul v-show="!mobile">
                     <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
                     <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-                    <router-link v-if="admin" class="link" :to="{ name: 'CreateBlog' }">
+                    <router-link v-if="user" class="link" :to="{ name: 'CreateBlog' }">
                         Create Blog
                     </router-link>
                     <router-link v-if="!user" class="link" :to="{ name: 'Login' }">
@@ -80,7 +80,7 @@
             <ul class="mobile-nav" v-show="mobileNav" v-click-outside="closeMobileNav">
                 <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
                 <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-                <router-link v-if="admin" class="link" :to="{ name: 'CreateBlog' }">
+                <router-link v-if="user" class="link" :to="{ name: 'CreateBlog' }">
                     Create Blog
                 </router-link>
                 <router-link v-if="!user" class="link" :to="{ name: 'Login' }">

@@ -90,7 +90,6 @@ const routes = [
         meta: {
             title: 'Create New Blog',
             requiresAuth: true,
-            requiresAdmin: true,
         },
     },
     {
