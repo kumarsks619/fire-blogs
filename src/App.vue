@@ -6,7 +6,7 @@
             :progress="$store.getters.linearLoading"
         />
 
-        <div class="app">
+        <div class="app" v-if="$store.state.blogsLoaded">
             <Navigation v-show="navigation" />
             <router-view />
             <Footer v-show="navigation" />

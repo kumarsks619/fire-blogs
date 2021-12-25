@@ -10,6 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         blogs: [],
+        blogsLoaded: false,
         loading: false,
         linearLoading: 0,
         blogHTML: 'Start writing your blog from here...',
@@ -107,6 +108,9 @@ export default new Vuex.Store({
         setLinearLoaderProgress(state, payload) {
             state.linearLoading = payload
         },
+        setBlogsLoaded(state, payload) {
+            state.blogsLoaded = payload
+        },
     },
     actions: {
         async getCurrentUser({ commit }) {
@@ -148,6 +152,7 @@ export default new Vuex.Store({
                     commit('pushBlogs', data)
                 }
             })
+            commit('setBlogsLoaded', true)
             commit('toggleLoading')
         },
         async deleteBlog({ commit }, payload) {

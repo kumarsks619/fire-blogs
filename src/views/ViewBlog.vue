@@ -1,5 +1,5 @@
 <template>
-    <div class="post-view" v-if="currentBlog">
+    <div class="post-view" v-if="currentBlog.length !== 0">
         <div class="container quillWrapper">
             <h2>{{ currentBlog[0].blogTitle }}</h2>
             <h4>
@@ -21,7 +21,7 @@ export default {
     name: 'ViewBlog',
     data() {
         return {
-            currentBlog: null,
+            currentBlog: [],
         }
     },
     async mounted() {
