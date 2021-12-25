@@ -1,9 +1,9 @@
 <template>
     <div class="post-view">
         <div class="container quillWrapper">
-            <router-link class="router-button" :to="{ name: 'CreateBlog' }">
+            <div class="router-button" @click="$router.go(-1)">
                 Go Back
-            </router-link>
+            </div>
             <h2>{{ blogTitle }}</h2>
             <img :src="blogCoverPhoto" alt="" />
             <div class="post-content ql-editor" v-html="blogHTML"></div>

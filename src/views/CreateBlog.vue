@@ -78,6 +78,9 @@ export default {
             },
         }
     },
+    mounted() {
+        this.clearCreateBlogForm()
+    },
     computed: {
         profileID() {
             return this.$store.state.profileID
