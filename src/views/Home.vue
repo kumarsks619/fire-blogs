@@ -18,7 +18,7 @@
 
         <div v-if="!user" class="updates">
             <div class="container">
-                <h2>never miss a blog. Register for your free account today!</h2>
+                <h2>Publish your own blog. Register for free account today!</h2>
                 <router-link class="router-button" :to="{ name: 'Register' }">
                     Register for FireBlogs <ArrowIcon class="arrow arrow-light" />
                 </router-link>
@@ -44,7 +44,7 @@ export default {
             welcomeScreen: {
                 title: 'Welcome!',
                 content:
-                    'Weekly blog articles with all things programming including HTML, CSS, JavaScript and more. Register today to never miss a post!',
+                    'A content rich blogging website where you will get all you need. Register today to publish your own blogs!',
                 welcomeScreen: true,
                 photo: 'coding',
             },
